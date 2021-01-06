@@ -24,7 +24,7 @@ class _MovieListState extends State<MovieList> {
         }));
     return Scaffold(
       appBar: AppBar(
-        title: Text('Moves'),
+        title: Text('Movies'),
       ),
       body: Container(
         child: Text(result),
