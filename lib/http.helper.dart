@@ -10,11 +10,23 @@ class HttpHelper {
   final String urlBase = DotEnv().env['URL_BASE'];
   final String urlUpcoming = DotEnv().env['URL_UPCOMING'];
   final String urlLanguage = DotEnv().env['URL_LANG'];
-
+ 
   Future<List> getUpcoming() async {
     final String upcomming = urlBase + urlUpcoming + urlKey + urlLanguage;
     http.Response result = await http.get(upcomming);
 
+   return getMovies(result);
+  }
+
+  Future<List> findMovies(String title) async {
+    final String urlSearchBase = 'https://api.themoviedb.org/3/search/movie?$urlKey&query=';
+    final String query = urlSearchBase + title;
+    http.Response result = await http.get(query);
+
+    return getMovies(result);
+  }
+
+  List getMovies(http.Response result) {
     if (result.statusCode == HttpStatus.ok) {
       final jsonResponse = json.decode(result.body);
       final moviesMap = jsonResponse['results'];
